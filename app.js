@@ -1,4 +1,5 @@
 const express = require('express')
+const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -20,9 +21,13 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+// 啟用樣板引擎
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
+app.set('view engine', 'handlebars')
+
 // 設定首頁路由
 app.get('/', (req, res) => {
-  res.send('hello world')
+  res.render('index')
 })
 
 // 啟動並監聽伺服器
