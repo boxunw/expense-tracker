@@ -1,9 +1,10 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 const Record = require('./models/record')
 const Category = require('./models/category')
-const record = require('./models/record')
+const category = require('./models/category')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -28,6 +29,9 @@ db.once('open', () => {
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
+// 每一筆請求都需要透過 body-parser 進行前置處理
+app.use(bodyParser.urlencoded({ extended: true }))
+
 // 設定首頁路由
 app.get('/', (req, res) => {
   Record.find()
@@ -39,6 +43,26 @@ app.get('/', (req, res) => {
     }))
     .then(records => res.render('index', { records }))
     .catch(error => console.error(error))
+})
+
+app.get('/records/new', (req, res) => {
+  return res.render('new')
+})
+
+app.post('/records', (req, res) => {
+  const name = req.body.category
+  return Category.findOne({ name })
+    .lean()
+    .then(category => {
+      req.body.categoryId = category._id
+      const record = req.body
+      return record
+    })
+    .then(record => {
+      Record.create(record)
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
 })
 
 // 啟動並監聽伺服器
