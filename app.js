@@ -66,7 +66,7 @@ app.post('/records', (req, res) => {
 
 app.get('/records/:id/edit', (req, res) => {
   const _id = req.params.id
-  return Record.findById(_id)
+  return Record.findOne({ _id })
     .populate('categoryId')
     .lean()
     .then(record => {
@@ -88,6 +88,14 @@ app.post('/records/:id/edit', (req, res) => {
     })
     .then(record => Record.updateOne({ _id }, record))
     .then(() => res.redirect(`/`))
+    .catch(error => console.log(error))
+})
+
+app.post('/records/:id/delete', (req, res) => {
+  const _id = req.params.id
+  return Record.findOne({ _id })
+    .then(record => record.remove())
+    .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
