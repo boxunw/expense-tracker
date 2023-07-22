@@ -37,6 +37,7 @@ app.get('/', (req, res) => {
   Record.find()
     .populate('categoryId')
     .lean()
+    .sort({ date: -1, _id: -1 })
     .then(records => records.map(record => {
       record.date = new Date(record.date).toISOString().slice(0, 10)
       return record
