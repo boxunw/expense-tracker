@@ -1,1 +1,18 @@
-<h2>Hello world! 這是 index</h2>
+<ul class="list-group">
+  <div class="row">
+    <div class="col-6">
+      {{#each records}}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div class="d-flex flex-row">
+          <i class="{{ this.categoryId.icon }} fa-3x" style="color: #5e77f3;"></i>
+          <div class="ml-3">
+            <p class="h3">{{this.name}}</p>
+            <p class="h5">{{this.date}}</p>
+          </div>
+        </div>
+        <span class="h3">{{this.amount}}</span>
+      </li>
+      {{/each}}
+    </div>
+  </div>
+</ul>
