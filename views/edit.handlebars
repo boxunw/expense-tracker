@@ -1,0 +1,50 @@
+<div class="row my-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <div class="form-group row mt-5">
+        <h1 class="text-center">請輸入你的支出</h1>
+        <h6 class="text-left">*必填欄位</h6>
+      </div>
+      <form action="/records/{{record._id}}/edit" method="POST">
+        <div class="form-group row my-5">
+          <label for="name" class="col-sm-2 col-form-label col-form-label-lg mb-2">名稱* :</label>
+          <div class="col-sm-10">
+            <input type="text" id="name" name="name" class="form-control form-control-lg" placeholder="請輸入名稱"
+              value="{{record.name}}">
+          </div>
+        </div>
+        <div class="form-group row my-5">
+          <label for="date" class="col-sm-2 col-form-label col-form-label-lg mb-2">日期* :</label>
+          <div class="col-sm-10">
+            <input type="date" id="date" name="date" class="form-control form-control-lg" placeholder="請輸入日期"
+              value="{{record.date}}">
+          </div>
+        </div>
+        <div class="form-group row my-5">
+          <label for="category" class="col-sm-2 col-form-label col-form-label-lg mb-2">類別* :</label>
+          <div class="col-sm-10">
+            <select name="category" id="category" class="form-select form-select-lg"
+              aria-label="Default select example">
+              <option value="{{record.categoryId.name}}">{{record.categoryId.name}}</option>
+              <option value="家居物業">家居物業</option>
+              <option value="交通出行">交通出行</option>
+              <option value="休閒娛樂">休閒娛樂</option>
+              <option value="餐飲食品">餐飲食品</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row my-5">
+          <label for="amount" class="col-sm-2 col-form-label col-form-label-lg mb-2">金額* :</label>
+          <div class="col-sm-10">
+            <input type="number" id="amount" name="amount" class="form-control form-control-lg" placeholder="請輸入金額"
+              value="{{record.amount}}">
+          </div>
+        </div>
+        <div class="d-grid gap-3 col-8 mx-auto my-5">
+          <button type="submit" class="btn btn-primary btn-lg btn-block">新增支出</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

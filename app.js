@@ -55,13 +55,39 @@ app.post('/records', (req, res) => {
     .lean()
     .then(category => {
       req.body.categoryId = category._id
-      const record = req.body
-      return record
+      return req.body
     })
     .then(record => {
       Record.create(record)
     })
     .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+app.get('/records/:id/edit', (req, res) => {
+  const _id = req.params.id
+  return Record.findById(_id)
+    .populate('categoryId')
+    .lean()
+    .then(record => {
+      record.date = new Date(record.date).toISOString().slice(0, 10)
+      return record
+    })
+    .then(record => res.render('edit', { record }))
+    .catch(error => console.log(error))
+})
+
+app.post('/records/:id/edit', (req, res) => {
+  const _id = req.params.id
+  const name = req.body.category
+  return Category.findOne({ name })
+    .lean()
+    .then(category => {
+      req.body.categoryId = category._id
+      return req.body
+    })
+    .then(record => Record.updateOne({ _id }, record))
+    .then(() => res.redirect(`/`))
     .catch(error => console.log(error))
 })
 
