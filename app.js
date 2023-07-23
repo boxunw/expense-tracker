@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // 設定首頁路由
 app.get('/', (req, res) => {
+  let totalAmount = 0
   Record.find()
     .populate('categoryId')
     .lean()
@@ -41,7 +42,10 @@ app.get('/', (req, res) => {
       record.date = new Date(record.date).toISOString().slice(0, 10)
       return record
     }))
-    .then(records => res.render('index', { records }))
+    .then(records => {
+      records.forEach(record => totalAmount += record.amount)
+      res.render('index', { records, totalAmount })
+    })
     .catch(error => console.error(error))
 })
 
@@ -100,6 +104,7 @@ app.post('/records/:id/delete', (req, res) => {
 })
 
 app.post('/filter', (req, res) => {
+  let totalAmount = 0
   const selectedCategory = req.body.category
   Category.findOne({ name: selectedCategory })
     .lean()
@@ -113,7 +118,10 @@ app.post('/filter', (req, res) => {
           record.date = new Date(record.date).toISOString().slice(0, 10)
           return record
         }))
-        .then(records => res.render('index', { records, selectedCategory }))
+        .then(records => {
+          records.forEach(record => totalAmount += record.amount)
+          res.render('index', { records, selectedCategory, totalAmount })
+        })
         .catch(error => console.error(error))
     })
     .catch(error => console.error(error))

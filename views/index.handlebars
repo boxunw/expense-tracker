@@ -1,6 +1,6 @@
-<div class="row mt-5">
+<div class="row mt-3">
   <div class="col-md-9 m-auto">
-    <div class="form-group row d-flex justify-content-center my-5">
+    <div class="form-group row d-flex justify-content-center">
       <div class="col-sm-8">
         <form action="/filter" method="POST">
           <select name="category" id="category" class="form-select form-select-lg" aria-label="Default select example"
@@ -10,25 +10,32 @@
             {{else}}
             <option selected>篩選類別</option>
             {{/if}}
-            <option value="家居物業">家居物業</option>
-            <option value="交通出行">交通出行</option>
-            <option value="休閒娛樂">休閒娛樂</option>
-            <option value="餐飲食品">餐飲食品</option>
-            <option value="其他">其他</option>
+            <option value="家居物業">&nbsp;&nbsp;&nbsp;家居物業</option>
+            <option value="交通出行">&nbsp;&nbsp;&nbsp;交通出行</option>
+            <option value="休閒娛樂">&nbsp;&nbsp;&nbsp;休閒娛樂</option>
+            <option value="餐飲食品">&nbsp;&nbsp;&nbsp;餐飲食品</option>
+            <option value="其他">&nbsp;&nbsp;&nbsp;其他</option>
           </select>
         </form>
       </div>
+      <div class="col-sm-8 mt-5">
+        <h3>總金額 :</h3>
+        <div class="d-flex justify-content-end align-items-end">
+          <h1 class="display-1" style="color: #fd7e14;">{{totalAmount}}</h1>
+        </div>
+      </div>
     </div>
+
     <ul class="list-group">
       {{#each records}}
       <li class="list-group-item">
         <div class="row d-flex align-items-center">
           <div class="col-2">
-            <i class="{{ this.categoryId.icon }} fa-3x" style="color: #5e77f3;"></i>
+            <i class="{{ this.categoryId.icon }} fa-3x" style="color: #0dcaf0;"></i>
           </div>
           <div class="col-6">
-            <p class="h3">{{this.name}}</p>
-            <p class="h5">{{this.date}}</p>
+            <h3>{{this.name}}</h3>
+            <h5>{{this.date}}</h5>
           </div>
           <div class="col-2">
             <span class="h3">{{this.amount}}</span>
