@@ -11,7 +11,7 @@ const routes = require('./routes')
 const usePassport = require('./config/passport')
 require('./config/mongoose')
 const app = express()
-const port = process.env.PORT
+const PORT = process.env.PORT
 
 // 啟用樣板引擎
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -50,6 +50,6 @@ app.use((req, res, next) => {
 app.use(routes)
 
 // 啟動並監聽伺服器
-app.listen(port, () => {
-  console.log(`App is running on http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`App is running on http://localhost:${PORT}`)
 })
