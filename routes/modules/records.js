@@ -10,8 +10,22 @@ router.get('/new', (req, res) => {
 
 router.post('/', (req, res) => {
   const userId = req.user._id
-  const name = req.body.category
-  return Category.findOne({ name })
+  // 處理新增紀錄流程中的錯誤訊息
+  const { name, date, category, amount } = req.body
+  const new_error = {}
+  if (!name || !date || !category || !amount) {
+    new_error.message = '請完成所有必填欄位！'
+  }
+  if (Object.keys(new_error).length) {
+    return res.render('new', {
+      new_error,
+      name,
+      date,
+      category,
+      amount
+    })
+  }
+  return Category.findOne({ name: category })
     .lean()
     .then(category => {
       req.body.categoryId = category._id
@@ -42,8 +56,8 @@ router.get('/:id/edit', (req, res) => {
 router.put('/:id', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
-  const name = req.body.category
-  return Category.findOne({ name })
+  const category = req.body.category
+  return Category.findOne({ name: category })
     .lean()
     .then(category => {
       req.body.categoryId = category._id

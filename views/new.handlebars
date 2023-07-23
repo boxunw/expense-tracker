@@ -5,6 +5,7 @@
         <h1 class="text-center">請輸入你的支出</h1>
         <h6 class="text-left">*必填欄位</h6>
       </div>
+      {{> message}}
       <form action="/records" method="POST">
         <div class="form-group row my-5">
           <label for="name" class="col-sm-2 col-form-label col-form-label-lg mb-2">名稱* :</label>
@@ -25,7 +26,11 @@
           <div class="col-sm-10">
             <select name="category" id="category" class="form-select form-select-lg"
               aria-label="Default select example">
+              {{#if category}}
+              <option value="{{category}}">{{category}}</option>
+              {{else}}
               <option selected>請選擇分類</option>
+              {{/if}}
               <option value="家居物業">&nbsp;&nbsp;&nbsp;家居物業</option>
               <option value="交通出行">&nbsp;&nbsp;&nbsp;交通出行</option>
               <option value="休閒娛樂">&nbsp;&nbsp;&nbsp;休閒娛樂</option>
