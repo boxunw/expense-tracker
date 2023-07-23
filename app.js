@@ -1,4 +1,5 @@
 const express = require('express')
+const session = require('express-session')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
@@ -15,6 +16,13 @@ const port = 3000
 // 啟用樣板引擎
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
+
+// 啟用並設定 express-session
+app.use(session({
+  secret: 'ThisIsNotASecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 // 每一筆請求都需要透過 body-parser 進行前置處理
 app.use(bodyParser.urlencoded({ extended: true }))
