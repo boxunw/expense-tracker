@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Record = require('./models/record')
 const Category = require('./models/category')
-const category = require('./models/category')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -98,6 +97,26 @@ app.post('/records/:id/delete', (req, res) => {
     .then(record => record.remove())
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
+})
+
+app.post('/filter', (req, res) => {
+  const selectedCategory = req.body.category
+  Category.findOne({ name: selectedCategory })
+    .lean()
+    .then(category => {
+      const categoryId = category._id
+      return Record.find({ categoryId })
+        .populate('categoryId')
+        .lean()
+        .sort({ date: -1, _id: -1 })
+        .then(records => records.map(record => {
+          record.date = new Date(record.date).toISOString().slice(0, 10)
+          return record
+        }))
+        .then(records => res.render('index', { records, selectedCategory }))
+        .catch(error => console.error(error))
+    })
+    .catch(error => console.error(error))
 })
 
 // 啟動並監聽伺服器
