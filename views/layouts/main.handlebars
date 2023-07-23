@@ -11,8 +11,15 @@
 
 <body class="bg-light">
   <nav class="navbar navbar-dark bg-primary justify-content-between" style="padding: 8px 16px;">
-    <a class="navbar-brand" href="/">Expense Tracker</a>
-    <a class="btn btn-outline-light" href="/records/new">新增支出</a>
+    <a class="navbar-brand" href="/">
+      {{#if isAuthenticated}}{{ user.name }}的 {{/if}}
+      記帳本
+    </a>
+    {{#if isAuthenticated}}
+    <a href="/users/logout" class="btn btn-outline-light px-5 py-2 my-1">登出</a>
+    {{else}}
+    <a href="/users/login" class="btn btn-outline-light px-5 py-2 my-1">登入</a>
+    {{/if}}
   </nav>
   </header>
   <main>
