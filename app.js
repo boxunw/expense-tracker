@@ -9,6 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 const routes = require('./routes')
+const usePassport = require('./config/passport')
 require('./config/mongoose')
 const app = express()
 const port = 3000
@@ -29,6 +30,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // 每一筆請求都會透過 methodOverride 進行前置處理
 app.use(methodOverride('_method'))
+
+// 呼叫 Passport 函式並傳入 app
+usePassport(app)
 
 // 將 request 導入路由器
 app.use(routes)
