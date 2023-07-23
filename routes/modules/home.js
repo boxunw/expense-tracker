@@ -5,8 +5,9 @@ const Category = require('../../models/category')
 
 // 設定首頁路由
 router.get('/', (req, res) => {
+  const userId = req.user._id
   let totalAmount = 0
-  Record.find()
+  Record.find({ userId })
     .populate('categoryId')
     .lean()
     .sort({ date: -1, _id: -1 })
@@ -22,6 +23,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/filter', (req, res) => {
+  const userId = req.user._id
   let totalAmount = 0
   const selectedCategory = req.body.category
   if (!selectedCategory) {
@@ -31,7 +33,7 @@ router.post('/filter', (req, res) => {
     .lean()
     .then(category => {
       const categoryId = category._id
-      return Record.find({ categoryId })
+      return Record.find({ categoryId, userId })
         .populate('categoryId')
         .lean()
         .sort({ date: -1, _id: -1 })
