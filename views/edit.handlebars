@@ -5,7 +5,7 @@
         <h1 class="text-center">請輸入你的支出</h1>
         <h6 class="text-left">*必填欄位</h6>
       </div>
-      <form action="/records/{{record._id}}/edit" method="POST">
+      <form action="/records/{{record._id}}?_method=PUT" method="POST">
         <div class="form-group row my-5">
           <label for="name" class="col-sm-2 col-form-label col-form-label-lg mb-2">名稱* :</label>
           <div class="col-sm-10">
