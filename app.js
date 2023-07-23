@@ -1,6 +1,5 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const Record = require('./models/record')
@@ -9,22 +8,9 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 const routes = require('./routes')
+require('./config/mongoose')
 const app = express()
 const port = 3000
-
-// 設定連線到 mongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
-
-// 取得資料庫連線狀態
-const db = mongoose.connection
-// 連線異常
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-// 連線成功
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
 
 // 啟用樣板引擎
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))

@@ -24,6 +24,9 @@ router.get('/', (req, res) => {
 router.post('/filter', (req, res) => {
   let totalAmount = 0
   const selectedCategory = req.body.category
+  if (!selectedCategory) {
+    return res.redirect(`/`)
+  }
   Category.findOne({ name: selectedCategory })
     .lean()
     .then(category => {
